@@ -1,0 +1,19 @@
+mock:
+  base_url: https://mock.api.local
+  graphql_url: https://mock.api.local/graphql
+  description: Offline test environment backed by mock transports.
+
+qa:
+  base_url: ${API_BASE_URL:-https://api.example.test}
+  graphql_url: ${GRAPHQL_BASE_URL:-https://api.example.test/graphql}
+  description: Replace with the QA API host when the portfolio service is ready.
+
+staging:
+  base_url: ${API_STAGING_BASE_URL:-https://staging-api.example.test}
+  graphql_url: ${GRAPHQL_STAGING_BASE_URL:-https://staging-api.example.test/graphql}
+  description: Optional pre-production target.
+
+prod:
+  base_url: ${API_PROD_BASE_URL:-https://api.example.test}
+  graphql_url: ${GRAPHQL_PROD_BASE_URL:-https://api.example.test/graphql}
+  description: Production smoke target. Keep destructive tests disabled here.

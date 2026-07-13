@@ -1,0 +1,65 @@
+framework:
+  name: API Automation Framework
+  default_env: mock
+
+timeouts:
+  request_timeout_seconds: 15
+  polling_timeout_seconds: 30
+  polling_interval_seconds: 1
+
+api:
+  verify_ssl: true
+  follow_redirects: true
+  default_headers:
+    Accept: application/json
+    Content-Type: application/json
+    User-Agent: api-automation-framework/0.1.0
+
+execution:
+  environments:
+    - mock
+  env_workers: 1
+
+artifacts:
+  allure_results_dir: reports/allure-results
+  allure_report_dir: reports/allure-report
+  environment_matrix_dir: reports/environment-matrix
+  logs_dir: logs
+
+retries:
+  default: 1
+
+contracts:
+  schemas_dir: schemas
+  openapi_dir: contracts/openapi
+
+redaction:
+  headers:
+    - authorization
+    - proxy-authorization
+    - x-api-key
+    - api-key
+    - cookie
+    - set-cookie
+  fields:
+    - password
+    - token
+    - access_token
+    - refresh_token
+    - secret
+
+security:
+  required_headers:
+    - x-content-type-options
+    - x-frame-options
+    - referrer-policy
+  sensitive_value_patterns:
+    - "*password*"
+    - "*secret*"
+    - "*token*"
+    - "*api_key*"
+    - "*apikey*"
+    - "*authorization*"
+
+performance:
+  default_response_time_ms: 1000

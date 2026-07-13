@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "username": "portfolio.admin@example.test",
+    "password": "change-me",
+    "roles": ["admin", "api-tester"]
+  },
+  "readonly": {
+    "username": "portfolio.reader@example.test",
+    "password": "change-me",
+    "roles": ["reader"]
+  }
+}

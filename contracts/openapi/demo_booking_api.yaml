@@ -1,0 +1,84 @@
+openapi: 3.0.3
+info:
+  title: Portfolio Demo Booking API
+  version: 0.1.0
+  description: Example OpenAPI contract used by contract tests and framework demos.
+servers:
+  - url: https://mock.api.local
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      tags: [health]
+      responses:
+        "200":
+          description: Service health
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+  /bookings:
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBookingRequest"
+      responses:
+        "201":
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status, service, timestamp]
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded, down]
+        service:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    CreateBookingRequest:
+      type: object
+      required: [firstname, lastname, totalprice, depositpaid, bookingdates]
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        totalprice:
+          type: integer
+          minimum: 0
+        depositpaid:
+          type: boolean
+        bookingdates:
+          type: object
+          required: [checkin, checkout]
+          properties:
+            checkin:
+              type: string
+              format: date
+            checkout:
+              type: string
+              format: date
+        additionalneeds:
+          type: string
+    BookingResponse:
+      type: object
+      required: [bookingid, booking]
+      properties:
+        bookingid:
+          type: integer
+          minimum: 1
+        booking:
+          $ref: "#/components/schemas/CreateBookingRequest"

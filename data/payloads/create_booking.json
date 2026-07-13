@@ -1,0 +1,11 @@
+{
+  "firstname": "Ismail",
+  "lastname": "Automation",
+  "totalprice": 250,
+  "depositpaid": true,
+  "bookingdates": {
+    "checkin": "2026-07-20",
+    "checkout": "2026-07-24"
+  },
+  "additionalneeds": "API portfolio demo"
+}

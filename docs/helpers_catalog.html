@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API Framework Helper Catalog</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; color: #17202a; }
+    h1 { margin-bottom: 8px; }
+    input { width: 100%; max-width: 680px; padding: 10px; margin: 16px 0 24px; border: 1px solid #bfc9ca; border-radius: 6px; }
+    section { border-bottom: 1px solid #e5e8e8; padding: 14px 0; }
+    h2 { margin: 0 0 6px; }
+    code { background: #f4f6f7; padding: 2px 4px; border-radius: 4px; }
+    .tag { color: #566573; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>API Framework Helper Catalog</h1>
+  <p>Search helper names, categories, and tags.</p>
+  <input id="search" type="search" placeholder="Search helpers">
+  <main id="catalog">
+    <section data-keywords="httpx rest api client request response">
+      <h2>ApiClient</h2>
+      <p><code>clients.ApiClient</code> wraps HTTPX for REST calls, auth injection, status checks, and Allure attachments.</p>
+      <p class="tag">API, REST, HTTPX</p>
+    </section>
+    <section data-keywords="requests session api client">
+      <h2>RequestsApiClient</h2>
+      <p><code>clients.RequestsApiClient</code> provides a requests.Session alternative.</p>
+      <p class="tag">API, Requests</p>
+    </section>
+    <section data-keywords="graphql query variables operation">
+      <h2>GraphQLClient</h2>
+      <p><code>clients.GraphQLClient</code> executes inline GraphQL queries or query files.</p>
+      <p class="tag">GraphQL, Query Files</p>
+    </section>
+    <section data-keywords="schema contract json validation openapi">
+      <h2>SchemaValidator</h2>
+      <p><code>utils.helpers.schema.SchemaValidator</code> validates payloads against JSON Schema Draft 2020-12.</p>
+      <p class="tag">Contracts, JSON Schema</p>
+    </section>
+    <section data-keywords="auth bearer api key basic redaction headers">
+      <h2>Auth Helpers</h2>
+      <p><code>utils.helpers.auth</code> supports bearer tokens, basic auth, API keys, query keys, and redaction.</p>
+      <p class="tag">Auth, Secrets</p>
+    </section>
+    <section data-keywords="assertions status header json path response time">
+      <h2>API Assertions</h2>
+      <p><code>utils.helpers.assertions</code> includes status, header, JSON path, and response-time assertions.</p>
+      <p class="tag">Assertions, API</p>
+    </section>
+    <section data-keywords="security headers sensitive token secret leak">
+      <h2>Security Helpers</h2>
+      <p><code>utils.helpers.security</code> validates response headers and checks text or JSON for sensitive-value patterns.</p>
+      <p class="tag">Security, Smoke</p>
+    </section>
+    <section data-keywords="performance timing elapsed response">
+      <h2>Performance Helpers</h2>
+      <p><code>utils.helpers.performance</code> validates and summarizes API response timings.</p>
+      <p class="tag">Performance, Timing</p>
+    </section>
+    <section data-keywords="wait polling retry eventual consistency">
+      <h2>Wait Helpers</h2>
+      <p><code>utils.helpers.wait</code> includes <code>wait_until</code> and <code>poll_until</code> for eventually consistent APIs.</p>
+      <p class="tag">Polling, Retry</p>
+    </section>
+    <section data-keywords="data generators unique email username phone payload">
+      <h2>Data Helpers</h2>
+      <p><code>utils.helpers.data</code> generates readable unique values and demo API payloads.</p>
+      <p class="tag">Data, Payloads</p>
+    </section>
+    <section data-keywords="env secrets environment variables mask">
+      <h2>Environment Helpers</h2>
+      <p><code>utils.helpers.env</code> reads required/optional env vars and masks secrets for safer logs.</p>
+      <p class="tag">Environment, Secrets</p>
+    </section>
+    <section data-keywords="cleanup teardown registry resources">
+      <h2>Cleanup Registry</h2>
+      <p><code>utils.helpers.cleanup.CleanupRegistry</code> tracks API cleanup actions and validates teardown results.</p>
+      <p class="tag">Cleanup, Test Data</p>
+    </section>
+    <section data-keywords="soft assertions grouped failures">
+      <h2>Soft Assertions</h2>
+      <p><code>utils.helpers.soft_assertions</code> collects multiple validation failures and reports them together.</p>
+      <p class="tag">Assertions, Grouped Failures</p>
+    </section>
+    <section data-keywords="files csv json structured validation">
+      <h2>File Helpers</h2>
+      <p><code>utils.helpers.files</code> reads and validates files, CSV files, and JSON files.</p>
+      <p class="tag">Files, Structured Data</p>
+    </section>
+    <section data-keywords="url query params endpoint build parse">
+      <h2>URL Helpers</h2>
+      <p><code>utils.helpers.url</code> builds endpoint URLs and parses query parameters.</p>
+      <p class="tag">URL, Query Params</p>
+    </section>
+    <section data-keywords="allure debug attachment step json text file">
+      <h2>Allure Debug Helpers</h2>
+      <p><code>utils.helpers.allure_debug</code> adds reusable Allure steps and attachments.</p>
+      <p class="tag">Allure, Debug</p>
+    </section>
+  </main>
+  <script>
+    const search = document.querySelector("#search");
+    const sections = [...document.querySelectorAll("section")];
+    search.addEventListener("input", () => {
+      const query = search.value.toLowerCase();
+      sections.forEach((section) => {
+        const haystack = `${section.textContent} ${section.dataset.keywords}`.toLowerCase();
+        section.style.display = haystack.includes(query) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
