@@ -11,6 +11,7 @@
 Python API automation framework built with Pytest, HTTPX, Requests, JSON Schema, OpenAPI contracts, GraphQL support, Allure reporting, retry support, parallel execution, and GitHub Actions CI.
 
 This repository is the API-focused sibling of the web and mobile automation frameworks in the Fullstack Automation portfolio.
+Shared, domain-neutral utilities are consumed from [`automation-core`](https://github.com/iisleem/automation-core) so config, logging, reporting, waits, retries, files, text, data, security, performance, cleanup, and soft assertions stay consistent across the web, mobile, and API frameworks.
 
 ## What This Framework Gives You
 
@@ -68,14 +69,14 @@ api-automation-framework/
 │   ├── helpers/                   # Helper simulation/unit tests
 │   └── examples/                  # Opt-in live API examples
 ├── utils/
-│   ├── allure_cli.py              # Auto-installs/locates Allure CLI
+│   ├── allure_cli.py              # Compatibility wrapper over automation-core
 │   ├── assertions.py              # Reusable assertion helpers
-│   ├── config_reader.py           # YAML config reader
+│   ├── config_reader.py           # API config wrapper over automation-core
 │   ├── data_reader.py             # JSON data reader
-│   ├── helpers/                   # Reusable automation helper library
-│   ├── logger.py                  # Framework logger
-│   ├── report_generator.py        # Built-in report fallback and matrix dashboard
-│   └── report_opener.py           # Opens reports safely locally or in CI
+│   ├── helpers/                   # API helpers plus automation-core compatibility wrappers
+│   ├── logger.py                  # Framework logger wrapper over automation-core
+│   ├── report_generator.py        # Reporting wrapper over automation-core
+│   └── report_opener.py           # Report opener wrapper over automation-core
 ├── scripts/
 │   ├── generate_allure_report.py  # Manual report generation helper
 │   └── run_environment_matrix.py  # API environment matrix runner and dashboard builder
