@@ -239,12 +239,14 @@ def _resolve_marker_expression(args: argparse.Namespace) -> str | None:
         }.items()
         if enabled
     ]
-    expressions = selected[:]
-    if args.markers:
-        expressions.append(f"({args.markers})" if " " in args.markers else args.markers)
-    if not expressions:
-        return None
-    return " and ".join(expressions)
+    raw_expression = args.markers.strip() if args.markers else ""
+    if not selected:
+        return raw_expression or None
+
+    shortcut_expression = " or ".join(selected)
+    if raw_expression:
+        return f"({shortcut_expression}) and ({raw_expression})"
+    return shortcut_expression
 
 
 def _resolve_run_environments(args: argparse.Namespace) -> list[str]:

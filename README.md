@@ -363,6 +363,9 @@ pytest -m live --enable-live-api-examples --env qa
 | `helpers` | `python framework.py helpers` | Open searchable helper catalog |
 | `helpers --guide` | `python framework.py helpers --guide` | Print Markdown helper guide path |
 
+Multiple shortcut marker flags are combined as a union. For example, `python framework.py run --smoke --contract`
+runs tests marked `smoke or contract`. Use `--markers` for raw pytest expressions such as `smoke and not flaky`.
+
 You can pass extra pytest arguments after `--`:
 
 ```bash
