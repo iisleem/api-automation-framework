@@ -17,6 +17,7 @@ The web automation framework is the source of truth for portfolio structure, wor
 | `run --browser-workers` | `run --env-workers` | Converted |
 | Browser matrix dashboard | API environment matrix dashboard | Converted |
 | GitHub template starter | API starter project under `templates/starter_project/` | Implemented |
+| Getting started walkthrough with screenshots | API mock smoke/contract walkthrough with core report and artifact screenshots | Implemented |
 | automation-core product report | Default post-run report generated at `reports/automation-report/index.html` | Implemented |
 | Official Allure report generation | Optional through `--report-kind allure` or `--report-kind both` | Implemented |
 | Built-in HTML report summary | Available through `--report-kind summary` | Implemented |
