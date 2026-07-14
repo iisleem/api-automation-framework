@@ -105,9 +105,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+cp .env.example .env
 python framework.py doctor
 python framework.py run
 ```
+
+Install `requirements-dev.txt` as well when contributing changes that need local Ruff or CI-equivalent checks.
 
 ## Unified Framework CLI
 
