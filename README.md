@@ -122,6 +122,9 @@ For a guided mock run with screenshots of the core report and request/response a
 This repository is configured as a GitHub template. For a product-specific API suite, create a new repository from
 this template, then copy the starter files into the generated repository root:
 
+For the shared portfolio template approach, see the
+[automation-core template strategy](https://github.com/iisleem/automation-core/blob/main/docs/template_strategy.md).
+
 ```bash
 cp -R templates/starter_project/config/* config/
 cp -R templates/starter_project/services/* services/

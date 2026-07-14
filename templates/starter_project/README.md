@@ -4,6 +4,9 @@ Use this starter after creating a product-specific repository from `api-automati
 It shows the smallest useful shape for a product API suite while reusing the framework clients,
 fixtures, schema validator, reporting, and CLI.
 
+For the shared portfolio template approach, see the
+[automation-core template strategy](https://github.com/iisleem/automation-core/blob/main/docs/template_strategy.md).
+
 ## Copy Into A New Product Suite
 
 From the generated repository root:
