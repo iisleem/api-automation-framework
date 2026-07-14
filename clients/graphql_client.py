@@ -11,7 +11,9 @@ from clients.api_client import ApiClient
 
 
 class GraphQLClient:
-    def __init__(self, base_url: str, *, endpoint: str = "", api_client: ApiClient | None = None, **kwargs: Any) -> None:
+    def __init__(
+        self, base_url: str, *, endpoint: str = "", api_client: ApiClient | None = None, **kwargs: Any
+    ) -> None:
         self.endpoint = endpoint
         self.api_client = api_client or ApiClient(base_url, **kwargs)
 

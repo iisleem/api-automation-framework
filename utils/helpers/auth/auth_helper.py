@@ -18,11 +18,9 @@ SENSITIVE_HEADERS = {
 
 
 class AuthProvider(Protocol):
-    def headers(self) -> dict[str, str]:
-        ...
+    def headers(self) -> dict[str, str]: ...
 
-    def params(self) -> dict[str, str]:
-        ...
+    def params(self) -> dict[str, str]: ...
 
 
 @dataclass(frozen=True)
@@ -90,7 +88,4 @@ def build_auth_from_env(prefix: str = "API") -> AuthProvider:
 
 
 def redact_headers(headers: dict[str, str], replacement: str = "***") -> dict[str, str]:
-    return {
-        key: replacement if key.lower() in SENSITIVE_HEADERS else value
-        for key, value in headers.items()
-    }
+    return {key: replacement if key.lower() in SENSITIVE_HEADERS else value for key, value in headers.items()}
