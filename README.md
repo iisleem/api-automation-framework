@@ -87,6 +87,7 @@ api-automation-framework/
 │   ├── API_CONTRACTS.md           # Contract testing notes
 │   ├── FEATURE_PARITY.md          # Web-to-API feature mapping
 │   ├── FRAMEWORK_HELPERS.md       # Helper usage guide
+│   ├── WALKTHROUGH.md             # Mock run walkthrough with report screenshots
 │   └── helpers_catalog.html       # Searchable helper catalog
 ├── reports/                       # Allure results, core reports, optional Allure reports, matrix reports, logs
 ├── logs/                          # Framework logs
@@ -113,6 +114,8 @@ python framework.py run
 ```
 
 Install `requirements-dev.txt` as well when contributing changes that need local Ruff or CI-equivalent checks.
+
+For a guided mock run with screenshots of the core report and request/response artifacts, see the [API Framework Walkthrough](docs/WALKTHROUGH.md).
 
 ## GitHub Template And Starter Project
 
