@@ -222,6 +222,10 @@ with step("Validate health response"):
     attach_json(response.json(), "health response")
 ```
 
+These helpers write Allure-compatible steps and attachments. The default post-run report is still the
+automation-core product report at `reports/automation-report/index.html`; official Allure is optional with
+`--report-kind allure` or `--report-kind both`.
+
 ## Helper Tests
 
 Helper tests live under:

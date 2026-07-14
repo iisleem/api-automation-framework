@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import subprocess
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
@@ -11,14 +10,12 @@ import pytest
 from dotenv import load_dotenv
 
 from clients import ApiClient, GraphQLClient
-from utils.allure_cli import get_or_install_allure_cli
 from utils.config_reader import ConfigReader
 from utils.data_reader import DataReader
 from utils.helpers.auth import build_auth_from_env
 from utils.helpers.schema import SchemaValidator
 from utils.logger import get_logger
-from utils.report_generator import generate_html_report
-from utils.report_opener import open_report
+from utils.reporting import REPORT_KIND_CHOICES, finalize_api_reporting, log_reporting_result
 
 load_dotenv()
 
@@ -67,16 +64,29 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         help="Include the intentionally failing reporting demo test.",
     )
     group.addoption(
+        "--report-kind",
+        action="store",
+        default="core",
+        choices=REPORT_KIND_CHOICES,
+        help="Post-run report kind: core, summary, allure, or both. Defaults to core.",
+    )
+    group.addoption(
+        "--install-allure-cli",
+        action="store_true",
+        default=False,
+        help="Install the official Allure CLI locally when --report-kind allure/both needs it.",
+    )
+    group.addoption(
         "--no-generate-report",
         action="store_true",
         default=False,
-        help="Do not generate the HTML report after the test session.",
+        help="Do not generate the post-run report after the test session.",
     )
     group.addoption(
         "--no-open-report",
         action="store_true",
         default=False,
-        help="Do not open the generated HTML report in the default browser.",
+        help="Do not open the generated post-run report in the default browser.",
     )
 
 
@@ -117,9 +127,16 @@ def pytest_sessionfinish(
     if session.config.getoption("--no-generate-report"):
         return
 
-    report_path = _generate_report_after_session()
-    if report_path and not session.config.getoption("--no-open-report"):
-        open_report(report_path, LOGGER)
+    result = _generate_report_after_session(
+        report_kind=session.config.getoption("--report-kind"),
+        open_report=not session.config.getoption("--no-open-report"),
+        env_name=session.config.getoption("--env"),
+        base_url=session.config.getoption("--base-url"),
+        graphql_url=session.config.getoption("--graphql-url"),
+        install_allure_cli=session.config.getoption("--install-allure-cli"),
+    )
+    if result:
+        log_reporting_result(result, LOGGER)
 
 
 @pytest.fixture(scope="session")
@@ -214,33 +231,27 @@ def _split_graphql_url(graphql_url: str) -> tuple[str, str]:
     return base_url, endpoint
 
 
-def _generate_report_after_session() -> Path | None:
-    results_dir = PROJECT_ROOT / "reports" / "allure-results"
-    output_dir = PROJECT_ROOT / "reports" / "allure-report"
-    allure_executable = get_or_install_allure_cli(PROJECT_ROOT, LOGGER)
-
+def _generate_report_after_session(
+    *,
+    report_kind: str = "core",
+    open_report: bool = False,
+    env_name: str = "mock",
+    base_url: str | None = None,
+    graphql_url: str | None = None,
+    install_allure_cli: bool = False,
+):
     try:
-        if allure_executable:
-            subprocess.run(
-                [
-                    allure_executable,
-                    "generate",
-                    str(results_dir),
-                    "-o",
-                    str(output_dir),
-                    "--clean",
-                ],
-                check=True,
-                capture_output=True,
-                text=True,
-            )
-            report_path = output_dir / "index.html"
-            LOGGER.info("Generated Allure report: %s", report_path)
-            return report_path
-
-        report_path = generate_html_report(results_dir, output_dir)
-        LOGGER.info("Generated built-in HTML report: %s", report_path)
-        return report_path
+        return finalize_api_reporting(
+            PROJECT_ROOT,
+            report_kind=report_kind,
+            open_report=open_report,
+            env_name=env_name,
+            base_url=base_url,
+            graphql_url=graphql_url,
+            missing_ok=True,
+            install_allure_cli=install_allure_cli,
+            logger=LOGGER,
+        )
     except Exception as error:
-        LOGGER.warning("Could not generate HTML report after test session: %s", error)
+        LOGGER.warning("Could not finalize reporting after test session: %s", error)
         return None

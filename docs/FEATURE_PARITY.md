@@ -16,11 +16,12 @@ The web automation framework is the source of truth for portfolio structure, wor
 | Browser selection and browser matrix | API environment selection and environment matrix | Converted |
 | `run --browser-workers` | `run --env-workers` | Converted |
 | Browser matrix dashboard | API environment matrix dashboard | Converted |
-| Official Allure report generation | Same behavior | Implemented |
-| Built-in HTML report fallback | Same behavior | Implemented |
-| Local Allure CLI auto-install | Same behavior | Implemented |
+| automation-core product report | Default post-run report generated at `reports/automation-report/index.html` | Implemented |
+| Official Allure report generation | Optional through `--report-kind allure` or `--report-kind both` | Implemented |
+| Built-in HTML report summary | Available through `--report-kind summary` | Implemented |
+| Local Allure CLI install | Optional through `--install-allure-cli` or `doctor --install-allure` | Implemented |
 | Safe report opening through local HTTP server | Same behavior | Implemented |
-| `report open --type auto/matrix/allure` | Same behavior with environment matrix | Implemented |
+| `report open --type auto/matrix/core/allure` | Same behavior with environment matrix and core report | Implemented |
 | `helpers` and `helpers --guide` | Same behavior | Implemented |
 | `ConfigReader` class | Same style with env var expansion | Implemented |
 | `DataReader` class | Same style for `data/` files | Implemented |
@@ -55,6 +56,7 @@ The web automation framework is the source of truth for portfolio structure, wor
 - OpenAPI contract examples
 - Auth providers for bearer token, basic auth, API keys, and query keys
 - Request/response Allure attachments with sensitive header redaction
+- automation-core product report with serializable API run metadata
 - Environment matrix execution for API targets
 - Live API examples skipped by default
 

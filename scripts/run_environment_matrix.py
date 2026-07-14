@@ -13,16 +13,15 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from utils.allure_cli import get_or_install_allure_cli
 from utils.config_reader import ConfigReader
 from utils.logger import get_logger
 from utils.report_generator import (
     generate_environment_matrix_dashboard,
-    generate_html_report,
     read_allure_results,
     summarize_results,
 )
 from utils.report_opener import open_report
+from utils.reporting import REPORT_KIND_CHOICES, finalize_api_reporting, generated_report_path, log_reporting_result
 
 LOGGER = get_logger("environment-matrix")
 
@@ -60,7 +59,6 @@ def main() -> int:
     if args.no_generate_report:
         return max((pytest_run["exit_code"] for pytest_run in pytest_runs), default=0)
 
-    allure_executable = get_or_install_allure_cli(PROJECT_ROOT, LOGGER)
     environment_runs: list[dict] = []
     exit_code = 0
 
@@ -71,7 +69,13 @@ def main() -> int:
         env_exit_code = pytest_run["exit_code"]
         exit_code = max(exit_code, env_exit_code)
 
-        report_path = _generate_environment_report(allure_executable, results_dir, report_dir)
+        report_path = _generate_environment_report(
+            results_dir,
+            report_dir,
+            report_kind=args.report_kind,
+            env_name=env,
+            install_allure_cli=args.install_allure_cli,
+        )
         tests = read_allure_results(results_dir)
         summary = summarize_results(tests)
         if env_exit_code != 0 and summary["status"] == "passed":
@@ -132,6 +136,17 @@ def _parse_args() -> tuple[argparse.Namespace, list[str]]:
         "--no-generate-report",
         action="store_true",
         help="Run pytest per environment without generating reports or the matrix dashboard.",
+    )
+    parser.add_argument(
+        "--report-kind",
+        choices=REPORT_KIND_CHOICES,
+        default="core",
+        help="Per-environment report kind: core, summary, allure, or both. Defaults to core.",
+    )
+    parser.add_argument(
+        "--install-allure-cli",
+        action="store_true",
+        help="Install the official Allure CLI locally when --report-kind allure/both needs it.",
     )
     return parser.parse_known_args()
 
@@ -309,30 +324,29 @@ def _write_environment_log(
 
 
 def _generate_environment_report(
-    allure_executable: str | None,
     results_dir: Path,
     report_dir: Path,
+    *,
+    report_kind: str,
+    env_name: str,
+    install_allure_cli: bool,
 ) -> Path:
-    if allure_executable:
-        try:
-            subprocess.run(
-                [
-                    allure_executable,
-                    "generate",
-                    str(results_dir),
-                    "-o",
-                    str(report_dir),
-                    "--clean",
-                ],
-                check=True,
-                capture_output=True,
-                text=True,
-            )
-            return report_dir / "index.html"
-        except Exception as error:
-            LOGGER.warning("Official Allure generation failed. Falling back: %s", error)
-
-    return generate_html_report(results_dir, report_dir)
+    allure_output_dir = report_dir if report_kind == "allure" else report_dir / "allure"
+    result = finalize_api_reporting(
+        PROJECT_ROOT,
+        results_dir=results_dir,
+        output_dir=report_dir,
+        report_kind=report_kind,
+        open_report=False,
+        env_name=env_name,
+        history_dir=PROJECT_ROOT / "reports" / "environment-matrix" / "history" / env_name,
+        allure_output_dir=allure_output_dir,
+        missing_ok=True,
+        install_allure_cli=install_allure_cli,
+        logger=LOGGER,
+    )
+    log_reporting_result(result, LOGGER)
+    return generated_report_path(result) or report_dir / "index.html"
 
 
 if __name__ == "__main__":

@@ -5,10 +5,11 @@
 [![Pytest](https://img.shields.io/badge/tested%20with-pytest-0A9EDC.svg)](https://pytest.org/)
 [![HTTPX](https://img.shields.io/badge/http-client-httpx-2EAD33.svg)](https://www.python-httpx.org/)
 [![Requests](https://img.shields.io/badge/http-client-requests-20232A.svg)](https://requests.readthedocs.io/)
-[![Allure](https://img.shields.io/badge/reports-Allure-orange.svg)](https://allurereport.org/)
+[![Reports](https://img.shields.io/badge/reports-automation--core-2EAD33.svg)](https://github.com/iisleem/automation-core)
+[![Allure](https://img.shields.io/badge/Allure-optional-orange.svg)](https://allurereport.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Python API automation framework built with Pytest, HTTPX, Requests, JSON Schema, OpenAPI contracts, GraphQL support, Allure reporting, retry support, parallel execution, and GitHub Actions CI.
+Python API automation framework built with Pytest, HTTPX, Requests, JSON Schema, OpenAPI contracts, GraphQL support, automation-core product reporting, optional official Allure reporting, retry support, parallel execution, and GitHub Actions CI.
 
 This repository is the API-focused sibling of the web and mobile automation frameworks in the Fullstack Automation portfolio.
 Shared, domain-neutral utilities are consumed from [`automation-core`](https://github.com/iisleem/automation-core) so config, logging, reporting, waits, retries, files, text, data, security, performance, cleanup, and soft assertions stay consistent across the web, mobile, and API frameworks.
@@ -20,9 +21,9 @@ Shared, domain-neutral utilities are consumed from [`automation-core`](https://g
 - Unified framework CLI for health checks, test execution, reports, and helper docs
 - CLI support for environment, base URL, GraphQL URL, markers, retries, live examples, and parallel execution
 - Settings-driven API environment matrix execution with a main dashboard and drill-down environment reports
-- Automatic post-run HTML report generation from Allure result files
-- Automatic local Allure CLI install under `.tools/` when the `allure` command is missing
-- Built-in HTML report fallback if official Allure report generation cannot run
+- Automatic post-run core product report generation from Allure result files
+- Official Allure report generation is optional through `--report-kind allure` or `--report-kind both`
+- Missing or failing official Allure CLI does not block the core report when `--report-kind both` is used
 - Automatic local report opening after test runs, skipped safely in CI/server environments
 - REST API client built on `httpx`
 - Optional `requests.Session` client for teams that prefer requests
@@ -78,14 +79,14 @@ api-automation-framework/
 │   ├── report_generator.py        # Reporting wrapper over automation-core
 │   └── report_opener.py           # Report opener wrapper over automation-core
 ├── scripts/
-│   ├── generate_allure_report.py  # Manual report generation helper
+│   ├── generate_allure_report.py  # Manual report finalizer helper
 │   └── run_environment_matrix.py  # API environment matrix runner and dashboard builder
 ├── docs/
 │   ├── API_CONTRACTS.md           # Contract testing notes
 │   ├── FEATURE_PARITY.md          # Web-to-API feature mapping
 │   ├── FRAMEWORK_HELPERS.md       # Helper usage guide
 │   └── helpers_catalog.html       # Searchable helper catalog
-├── reports/                       # Allure results, generated reports, matrix reports, logs
+├── reports/                       # Allure results, core reports, optional Allure reports, matrix reports, logs
 ├── logs/                          # Framework logs
 ├── .github/workflows/
 │   └── api-tests.yml              # GitHub Actions pipeline
@@ -178,7 +179,7 @@ Doctor checks include:
 - Required project files
 - YAML config validity
 - Python dependency imports
-- Allure CLI availability or fallback readiness
+- Core report readiness and optional Allure CLI availability
 - Writable artifact folders
 - Optional API authentication environment variables
 
@@ -188,10 +189,11 @@ Use strict mode when warnings should fail setup validation:
 python framework.py doctor --strict
 ```
 
-If the machine does not have the `allure` command, the framework auto-installs Allure CLI when reports are generated. You can also ask doctor to install it early:
+The default report does not require the official Allure CLI. Install it only when you want official Allure output:
 
 ```bash
 python framework.py doctor --install-allure
+python framework.py run --report-kind both --install-allure-cli
 ```
 
 ## Daily Test Commands
@@ -293,6 +295,8 @@ pytest -m live --enable-live-api-examples --env qa
 | `--reruns-delay` | `pytest --reruns 2 --reruns-delay 1` | Wait between retries |
 | `--enable-live-api-examples` | `pytest -m live --enable-live-api-examples` | Include tests that call live APIs |
 | `--run-reporting-demo` | `pytest --run-reporting-demo -m reporting_demo` | Include the intentionally failing reporting demo |
+| `--report-kind` | `pytest --report-kind core` | Select post-run report kind: `core`, `summary`, `allure`, or `both` |
+| `--install-allure-cli` | `pytest --report-kind both --install-allure-cli` | Install official Allure CLI when optional Allure output needs it |
 | `--no-open-report` | `pytest --no-open-report` | Generate report but do not open browser |
 | `--no-generate-report` | `pytest --no-generate-report` | Disable post-run report generation |
 
@@ -319,7 +323,8 @@ pytest -m live --enable-live-api-examples --env qa
 | `run --markers` | `python framework.py run --markers "smoke and not flaky"` | Use a raw pytest marker expression |
 | `run --reruns` | `python framework.py run --reruns 2 --reruns-delay 1` | Retry failed tests |
 | `run --run-reporting-demo` | `python framework.py run --run-reporting-demo --markers reporting_demo` | Include intentional failure demo |
-| `report open` | `python framework.py report open` | Open latest matrix or Allure report |
+| `run --report-kind` | `python framework.py run --report-kind both` | Generate core, summary, official Allure, or both report kinds |
+| `report open` | `python framework.py report open` | Open latest matrix, core, or optional Allure report |
 | `report generate` | `python framework.py report generate` | Generate report from existing Allure results |
 | `helpers` | `python framework.py helpers` | Open searchable helper catalog |
 | `helpers --guide` | `python framework.py helpers --guide` | Print Markdown helper guide path |
@@ -354,7 +359,7 @@ The matrix runner executes pytest once per environment, then creates:
 
 ```text
 reports/environment-matrix/index.html              # Main dashboard
-reports/environment-matrix/reports/mock/           # Mock environment Allure report
+reports/environment-matrix/reports/mock/           # Mock environment core product report
 reports/environment-matrix/results/mock/           # Mock environment Allure results
 reports/environment-matrix/logs/mock.log           # Mock pytest output
 ```
@@ -367,7 +372,7 @@ The main dashboard is the entry point. It shows:
 - Pass rate
 - Duration
 - Attention-needed summary
-- Links to each environment's detailed Allure report
+- Links to each environment's detailed core product report
 - Links to each environment's execution log
 
 The matrix command returns a non-zero exit code if any environment run fails, so CI can fail correctly while still keeping dashboards and reports available as artifacts.
@@ -424,21 +429,24 @@ reports/allure-results/
 At the end of the test session, the framework automatically generates:
 
 ```text
-reports/allure-report/index.html
+reports/automation-report/index.html
 ```
 
 Report generation flow:
 
-1. If the `allure` command exists on the machine, the framework uses it.
-2. If `allure` is missing, the framework downloads the official Allure CLI locally under `.tools/`.
-3. If official Allure generation cannot run, the framework generates a built-in HTML summary from the Allure JSON files.
-4. If the run is local, the framework opens official Allure reports through a lightweight local HTTP server.
-5. If the run is in CI/server mode or browser opening fails, the framework logs a note and does not fail the test run.
+1. `--report-kind core` is the default and generates the automation-core product report.
+2. `--report-kind summary` generates the legacy single-page summary.
+3. `--report-kind allure` generates only the official Allure report and requires the Allure CLI.
+4. `--report-kind both` generates the core product report first, then tries official Allure.
+5. If official Allure is missing or fails in `both` mode, the core report remains available and the run only logs a warning.
+6. If the run is local, the framework opens the selected report through a lightweight local HTTP server unless opening is disabled.
+7. If the run is in CI/server mode or browser opening fails, the framework logs a note and does not fail the test run.
 
-Important: Allure reports can show permanent `Loading...` when opened directly with `file://`. Open them through the framework CLI:
+Open generated reports through the framework CLI:
 
 ```bash
 python framework.py report open --type matrix
+python framework.py report open --type core
 python framework.py report open --type allure
 ```
 
@@ -456,11 +464,12 @@ python framework.py run --no-generate-report
 pytest --no-generate-report
 ```
 
-Generate the built-in fallback report manually from existing results:
+Generate reports manually from existing results:
 
 ```bash
-python framework.py report generate
-python scripts/generate_allure_report.py
+python framework.py report generate --report-kind core
+python scripts/generate_allure_report.py --report-kind core
+python framework.py report generate --report-kind both
 ```
 
 ## Framework Helpers
@@ -632,7 +641,7 @@ The pipeline:
 
 ## GitHub Project 4
 
-This repository is ready to connect to GitHub Project 4 later. After publishing it to GitHub, add the repository to the project board and use issues for roadmap slices such as authentication coverage, contract coverage, API environments, reporting improvements, and live example expansion.
+This repository is part of GitHub Project 4. Use project issues for roadmap slices such as authentication coverage, contract coverage, API environments, reporting improvements, and live example expansion.
 
 ## Troubleshooting
 
@@ -650,7 +659,7 @@ python framework.py report generate
 python scripts/generate_allure_report.py
 ```
 
-If official Allure cannot run, the framework automatically falls back to the built-in HTML report.
+The generated core product report is written to `reports/automation-report/index.html`. Official Allure output is optional with `--report-kind allure` or `--report-kind both`.
 
 If you need parallel execution, prefer the supported commands:
 
