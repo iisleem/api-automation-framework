@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://product.example.test/schemas/rest/catalog_item.schema.json",
+  "title": "CatalogItem",
+  "type": "object",
+  "required": ["id", "name", "active", "price"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0
+    }
+  }
+}

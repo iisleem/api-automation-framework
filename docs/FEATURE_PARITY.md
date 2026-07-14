@@ -16,6 +16,7 @@ The web automation framework is the source of truth for portfolio structure, wor
 | Browser selection and browser matrix | API environment selection and environment matrix | Converted |
 | `run --browser-workers` | `run --env-workers` | Converted |
 | Browser matrix dashboard | API environment matrix dashboard | Converted |
+| GitHub template starter | API starter project under `templates/starter_project/` | Implemented |
 | automation-core product report | Default post-run report generated at `reports/automation-report/index.html` | Implemented |
 | Official Allure report generation | Optional through `--report-kind allure` or `--report-kind both` | Implemented |
 | Built-in HTML report summary | Available through `--report-kind summary` | Implemented |
@@ -57,6 +58,7 @@ The web automation framework is the source of truth for portfolio structure, wor
 - Auth providers for bearer token, basic auth, API keys, and query keys
 - Request/response Allure attachments with sensitive header redaction
 - automation-core product report with serializable API run metadata
+- Copyable starter project for product API suites
 - Environment matrix execution for API targets
 - Live API examples skipped by default
 

@@ -1,0 +1,9 @@
+mock:
+  base_url: https://product-api.example.test
+  graphql_url: https://product-api.example.test/graphql
+  description: Local starter target backed by mock transports.
+
+qa:
+  base_url: ${API_BASE_URL:-https://qa-product-api.example.test}
+  graphql_url: ${GRAPHQL_BASE_URL:-https://qa-product-api.example.test/graphql}
+  description: Replace with the product QA API host.
