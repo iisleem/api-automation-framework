@@ -26,6 +26,11 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
           mkdir -p reports logs
 
+      - name: Lint and format check
+        run: |
+          ruff check .
+          ruff format --check .
+
       - name: Validate framework setup
         run: |
           python framework.py doctor

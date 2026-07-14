@@ -22,9 +22,14 @@ execution:
 
 artifacts:
   allure_results_dir: reports/allure-results
+  automation_report_dir: reports/automation-report
   allure_report_dir: reports/allure-report
   environment_matrix_dir: reports/environment-matrix
   logs_dir: logs
+
+reporting:
+  default_kind: core
+  official_allure: optional
 
 retries:
   default: 1
