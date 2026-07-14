@@ -69,6 +69,8 @@ api-automation-framework/
 │   ├── contracts/                 # Schema and OpenAPI contract checks
 │   ├── helpers/                   # Helper simulation/unit tests
 │   └── examples/                  # Opt-in live API examples
+├── templates/
+│   └── starter_project/           # Copyable product API suite starter
 ├── utils/
 │   ├── allure_cli.py              # Compatibility wrapper over automation-core
 │   ├── assertions.py              # Reusable assertion helpers
@@ -111,6 +113,32 @@ python framework.py run
 ```
 
 Install `requirements-dev.txt` as well when contributing changes that need local Ruff or CI-equivalent checks.
+
+## GitHub Template And Starter Project
+
+This repository is configured as a GitHub template. For a product-specific API suite, create a new repository from
+this template, then copy the starter files into the generated repository root:
+
+```bash
+cp -R templates/starter_project/config/* config/
+cp -R templates/starter_project/services/* services/
+cp -R templates/starter_project/schemas/* schemas/
+cp -R templates/starter_project/tests/* tests/
+```
+
+The starter project includes a small service object, schema, environment config, and smoke test under:
+
+```text
+templates/starter_project/
+```
+
+After copying it, rename the sample service and test around your product API, update `config/environments.yaml`,
+and run:
+
+```bash
+pytest tests/smoke/test_catalog_api.py --no-open-report
+python framework.py report open --type core
+```
 
 ## Unified Framework CLI
 
