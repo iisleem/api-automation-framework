@@ -85,6 +85,7 @@ api-automation-framework/
 │   └── run_environment_matrix.py  # API environment matrix runner and dashboard builder
 ├── docs/
 │   ├── API_CONTRACTS.md           # Contract testing notes
+│   ├── EXAMPLES.md                # Runnable mock and opt-in live examples
 │   ├── FEATURE_PARITY.md          # Web-to-API feature mapping
 │   ├── FRAMEWORK_HELPERS.md       # Helper usage guide
 │   ├── WALKTHROUGH.md             # Mock run walkthrough with report screenshots
@@ -116,6 +117,7 @@ python framework.py run
 Install `requirements-dev.txt` as well when contributing changes that need local Ruff or CI-equivalent checks.
 
 For a guided mock run with screenshots of the core report and request/response artifacts, see the [API Framework Walkthrough](docs/WALKTHROUGH.md).
+For runnable mock and opt-in live API examples, see the [Examples Guide](docs/EXAMPLES.md).
 
 ## GitHub Template And Starter Project
 
