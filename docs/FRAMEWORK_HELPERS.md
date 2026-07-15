@@ -223,7 +223,8 @@ with step("Validate health response"):
 ```
 
 These helpers write Allure-compatible steps and attachments. The default post-run report is still the
-automation-core product report at `reports/automation-report/index.html`; official Allure is optional with
+automation-core product report at `reports/automation-report/index.html`, with structured data at
+`reports/automation-report/report-data.json`; official Allure is optional with
 `--report-kind allure` or `--report-kind both`.
 
 ## Helper Tests

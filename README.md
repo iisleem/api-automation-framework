@@ -470,6 +470,7 @@ At the end of the test session, the framework automatically generates:
 
 ```text
 reports/automation-report/index.html
+reports/automation-report/report-data.json
 ```
 
 Report generation flow:
@@ -699,7 +700,7 @@ python framework.py report generate
 python scripts/generate_allure_report.py
 ```
 
-The generated core product report is written to `reports/automation-report/index.html`. Official Allure output is optional with `--report-kind allure` or `--report-kind both`.
+The generated core product report is written to `reports/automation-report/index.html`, with structured report data in `reports/automation-report/report-data.json`. Official Allure output is optional with `--report-kind allure` or `--report-kind both`.
 
 If you need parallel execution, prefer the supported commands:
 
