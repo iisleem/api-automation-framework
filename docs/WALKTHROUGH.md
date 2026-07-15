@@ -61,6 +61,7 @@ Schema and contract validations are regular pytest assertions. When they fail, t
 ```text
 reports/allure-results/                  # Raw pytest/Allure result files
 reports/automation-report/index.html     # Default core product report
+reports/automation-report/report-data.json # Structured report summary, timeline, and signals
 reports/automation-report/artifacts/     # Bundled request/response JSON and logs
 reports/environment-matrix/index.html    # Matrix dashboard
 reports/environment-matrix/reports/mock/ # Mock environment drill-down report

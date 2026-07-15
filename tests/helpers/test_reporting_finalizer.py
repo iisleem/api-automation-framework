@@ -26,12 +26,15 @@ def test_api_reporting_finalizer_generates_core_report_with_metadata(tmp_path):
     )
 
     report_path = tmp_path / "automation-report" / "index.html"
+    report_data_path = tmp_path / "automation-report" / "report-data.json"
     run_report_path = tmp_path / "automation-report" / "data" / "run-report.json"
     run_report = json.loads(run_report_path.read_text(encoding="utf-8"))
+    report_data = json.loads(report_data_path.read_text(encoding="utf-8"))
 
     assert result.ok is True
     assert result.core.generated is True
     assert report_path.exists()
+    assert report_data_path.exists()
     assert run_report["metadata"]["domain"] == "api"
     assert run_report["metadata"]["api_profile"] == API_PROFILE
     assert run_report["metadata"]["environment"] == "mock"
@@ -39,6 +42,10 @@ def test_api_reporting_finalizer_generates_core_report_with_metadata(tmp_path):
     assert run_report["tests"][0]["profile"] == API_PROFILE
     assert run_report["tests"][0]["environment"] == "mock"
     assert run_report["tests"][0]["metadata"]["api_profile"] == API_PROFILE
+    assert report_data["run"]["summary"]["total"] == 1
+    assert report_data["run"]["summary"]["status"] == "passed"
+    assert report_data["timeline"]["event_counts"]["artifact"] == 1
+    assert report_data["signals"]["artifact_count"] == 1
 
 
 def test_api_reporting_both_keeps_core_when_official_allure_cli_is_missing(tmp_path, monkeypatch):
