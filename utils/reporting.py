@@ -110,6 +110,8 @@ def log_reporting_result(result: ReportingFinalizeResult, logger=None) -> None:
             continue
         if status.generated:
             _log(logger, "info", "%s report generated: %s", label, status.path)
+            if label == "Core" and getattr(status, "run_path", None):
+                _log(logger, "info", "%s latest run details: %s", label, status.run_path)
         else:
             detail = status.error or "; ".join(status.warnings) or status.status
             _log(logger, "warning", "%s report %s: %s", label, status.status, detail)
@@ -130,6 +132,8 @@ def print_reporting_result(result: ReportingFinalizeResult) -> None:
             continue
         if status.generated:
             print(f"{label} report generated: {status.path}")
+            if label == "Core" and getattr(status, "run_path", None):
+                print(f"{label} latest run details: {status.run_path}")
         else:
             detail = status.error or "; ".join(status.warnings) or status.status
             print(f"{label} report {status.status}: {detail}")

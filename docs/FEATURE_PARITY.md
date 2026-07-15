@@ -18,7 +18,7 @@ The web automation framework is the source of truth for portfolio structure, wor
 | Browser matrix dashboard | API environment matrix dashboard | Converted |
 | GitHub template starter | API starter project under `templates/starter_project/` | Implemented |
 | Getting started walkthrough with screenshots | API mock smoke/contract walkthrough with core report and artifact screenshots | Implemented |
-| automation-core product report | Default post-run report generated at `reports/automation-report/index.html` with `report-data.json` sidecar | Implemented |
+| automation-core product report | Default retained-run portfolio generated at `reports/automation-report/index.html`, run picker at `reports/automation-report/reports.html`, and per-run data under `runs/<timestamp>-<run-id>/` | Implemented |
 | Official Allure report generation | Optional through `--report-kind allure` or `--report-kind both` | Implemented |
 | Built-in HTML report summary | Available through `--report-kind summary` | Implemented |
 | Local Allure CLI install | Optional through `--install-allure-cli` or `doctor --install-allure` | Implemented |

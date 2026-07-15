@@ -22,10 +22,12 @@ The default report output is:
 
 ```text
 reports/automation-report/index.html
-reports/automation-report/report-data.json
+reports/automation-report/reports.html
+reports/automation-report/runs/<timestamp>-<run-id>/report-data.json
 ```
 
-`report-data.json` includes structured run summary, timeline, and signals data for downstream inspection.
+The timestamped `report-data.json` includes structured run summary, timeline, and signals data for
+downstream inspection.
 
 ## Live API Example
 
