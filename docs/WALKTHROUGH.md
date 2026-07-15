@@ -3,6 +3,7 @@
 This walkthrough shows the shortest path from a fresh checkout to a passing mock API run with a core product report, artifacts, and a small starter-suite handoff.
 
 The screenshots below were produced from a local mock smoke/contract run.
+For a compact image-only reference, see the [Screenshot Index](SCREENSHOTS.md).
 
 ## 1. Set Up The Project
 

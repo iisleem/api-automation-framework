@@ -88,6 +88,7 @@ api-automation-framework/
 │   ├── EXAMPLES.md                # Runnable mock and opt-in live examples
 │   ├── FEATURE_PARITY.md          # Web-to-API feature mapping
 │   ├── FRAMEWORK_HELPERS.md       # Helper usage guide
+│   ├── SCREENSHOTS.md             # Core report screenshot index
 │   ├── WALKTHROUGH.md             # Mock run walkthrough with report screenshots
 │   └── helpers_catalog.html       # Searchable helper catalog
 ├── reports/                       # Allure results, core reports, optional Allure reports, matrix reports, logs
@@ -117,6 +118,7 @@ python framework.py run
 Install `requirements-dev.txt` as well when contributing changes that need local Ruff or CI-equivalent checks.
 
 For a guided mock run with screenshots of the core report and request/response artifacts, see the [API Framework Walkthrough](docs/WALKTHROUGH.md).
+For a compact image index, see the [Screenshot Index](docs/SCREENSHOTS.md).
 For runnable mock and opt-in live API examples, see the [Examples Guide](docs/EXAMPLES.md).
 
 ## GitHub Template And Starter Project
