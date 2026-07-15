@@ -45,6 +45,8 @@ The default report is written to:
 
 ```text
 reports/automation-report/index.html
+reports/automation-report/reports.html
+reports/automation-report/runs/<timestamp>-<run-id>/index.html
 ```
 
 Test detail pages show the test status, API domain/profile/environment metadata, retries, attached artifacts, and timeline.
@@ -61,9 +63,10 @@ Schema and contract validations are regular pytest assertions. When they fail, t
 
 ```text
 reports/allure-results/                  # Raw pytest/Allure result files
-reports/automation-report/index.html     # Default core product report
-reports/automation-report/report-data.json # Structured report summary, timeline, and signals
-reports/automation-report/artifacts/     # Bundled request/response JSON and logs
+reports/automation-report/index.html     # Retained-run portfolio dashboard
+reports/automation-report/reports.html   # Report gallery and run picker
+reports/automation-report/runs/<timestamp>-<run-id>/report-data.json # Structured run data
+reports/automation-report/runs/<timestamp>-<run-id>/artifacts/ # Bundled request/response JSON and logs
 reports/environment-matrix/index.html    # Matrix dashboard
 reports/environment-matrix/reports/mock/ # Mock environment drill-down report
 reports/environment-matrix/logs/mock.log # Matrix pytest output

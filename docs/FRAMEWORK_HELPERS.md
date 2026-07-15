@@ -222,9 +222,10 @@ with step("Validate health response"):
     attach_json(response.json(), "health response")
 ```
 
-These helpers write Allure-compatible steps and attachments. The default post-run report is still the
-automation-core product report at `reports/automation-report/index.html`, with structured data at
-`reports/automation-report/report-data.json`; official Allure is optional with
+These helpers write Allure-compatible steps and attachments. The default post-run report is the
+automation-core retained-run portfolio at `reports/automation-report/index.html`, with run selection
+at `reports/automation-report/reports.html` and structured run data under
+`reports/automation-report/runs/<timestamp>-<run-id>/`; official Allure is optional with
 `--report-kind allure` or `--report-kind both`.
 
 ## Helper Tests

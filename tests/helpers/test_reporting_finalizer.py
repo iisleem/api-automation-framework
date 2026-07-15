@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -25,15 +26,22 @@ def test_api_reporting_finalizer_generates_core_report_with_metadata(tmp_path):
         history_dir=tmp_path / "history",
     )
 
-    report_path = tmp_path / "automation-report" / "index.html"
-    report_data_path = tmp_path / "automation-report" / "report-data.json"
-    run_report_path = tmp_path / "automation-report" / "data" / "run-report.json"
+    portfolio_path = tmp_path / "automation-report" / "index.html"
+    reports_path = tmp_path / "automation-report" / "reports.html"
+    run_report_index = Path(result.core.run_path or "")
+    run_report_dir = run_report_index.parent
+    report_data_path = run_report_dir / "report-data.json"
+    run_report_path = run_report_dir / "data" / "run-report.json"
     run_report = json.loads(run_report_path.read_text(encoding="utf-8"))
     report_data = json.loads(report_data_path.read_text(encoding="utf-8"))
 
     assert result.ok is True
     assert result.core.generated is True
-    assert report_path.exists()
+    assert result.core.path == str(portfolio_path)
+    assert run_report_dir.parent == tmp_path / "automation-report" / "runs"
+    assert portfolio_path.exists()
+    assert reports_path.exists()
+    assert run_report_index.exists()
     assert report_data_path.exists()
     assert run_report["metadata"]["domain"] == "api"
     assert run_report["metadata"]["api_profile"] == API_PROFILE
