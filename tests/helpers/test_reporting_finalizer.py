@@ -54,6 +54,9 @@ def test_api_reporting_finalizer_generates_core_report_with_metadata(tmp_path):
     assert report_data["run"]["summary"]["status"] == "passed"
     assert report_data["timeline"]["event_counts"]["artifact"] == 1
     assert report_data["signals"]["artifact_count"] == 1
+    assert report_data["signals"]["test_retry_count"] == 0
+    assert report_data["signals"]["action_retry_count"] == 0
+    assert report_data["signals"]["healing_event_count"] == 0
 
 
 def test_api_reporting_both_keeps_core_when_official_allure_cli_is_missing(tmp_path, monkeypatch):
