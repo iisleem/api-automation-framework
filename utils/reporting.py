@@ -17,7 +17,7 @@ DEFAULT_HISTORY_DIR = Path("reports/history")
 PROJECT_NAME = "api-automation-framework"
 FRAMEWORK_NAME = "pytest-api"
 API_PROFILE = "REST/GraphQL/Contracts"
-MATRIX_DIMENSIONS = ["environment", "profile", "api_profile", "domain"]
+MATRIX_DIMENSIONS = ["api_profile", "profile", "domain", "component", "platform", "context", "owner"]
 
 
 def finalize_api_reporting(
@@ -69,6 +69,7 @@ def build_api_report_metadata(
     graphql_url: str | None = None,
 ) -> dict[str, str]:
     metadata = {
+        "platform_type": "api",
         "domain": "api",
         "profile": API_PROFILE,
         "api_profile": API_PROFILE,
@@ -87,6 +88,7 @@ def api_metadata_enricher(metadata: dict[str, str]) -> Callable[[Any], Any]:
             test.domain = test.domain or metadata["domain"]
             test.profile = test.profile or metadata["profile"]
             test.environment = test.environment or metadata["environment"]
+            test.metadata.setdefault("platform_type", "api")
             test.metadata.setdefault("api_profile", metadata["api_profile"])
             if "base_url" in metadata:
                 test.metadata.setdefault("base_url", metadata["base_url"])
